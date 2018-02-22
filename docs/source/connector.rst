@@ -42,7 +42,7 @@ The ``kafka-connect-fs.properties`` file defines the following properties as req
 .. sourcecode:: bash
 
    name=FsSourceConnector
-   connector.class=com.github.mmolimar.kafka.connect.fs.FsSourceConnector
+   connector.class=ch.generali.copa.di.connector.fssourceconnector.filesystem.FsSourceConnector
    tasks.max=1
    fs.uris=file:///data,hdfs://localhost:9000/
    topic=mytopic
@@ -59,11 +59,11 @@ The ``kafka-connect-fs.properties`` file defines the following properties as req
    modifying them in runtime.
 #. Topic in which copy data from the FS.
 #. Policy class to apply (must implement
-   ``com.github.mmolimar.kafka.connect.fs.policy.Policy`` interface).
+   ``ch.generali.copa.di.connector.fssourceconnector.filesystem.Policy`` interface).
 #. Flag to activate traversed recursion in subdirectories when listing files.
 #. Regular expression to filter files from the FS.
 #. File reader class to read files from the FS
-   (must implement ``com.github.mmolimar.kafka.connect.fs.file.reader.FileReader`` interface).
+   (must implement ``ch.generali.copa.di.connector.fssourceconnector.filesystem.FileReader`` interface).
 
 A more detailed information about these properties can be found :ref:`here<config_options-general>`.
 
@@ -108,7 +108,7 @@ The policy to be used by the connector is defined in ``policy.class`` connector 
 Currently, there are few policies to support some use cases but, for sure, you can develop your own one
 if the existing policies don't fit your needs.
 The only restriction is that you must implement the interface
-``com.github.mmolimar.kafka.connect.fs.policy.Policy``.
+``ch.generali.copa.di.connector.fssourceconnector.filesystem.Policy``.
 
 .. include:: policies.rst
 
@@ -124,6 +124,6 @@ The file reader to be used when processing files is defined in ``file_reader.cla
 In the same way as the policies, the connector provides several sort of readers to parse and read records
 for different file formats. If you don't have a file reader that fits your needs, just implement one
 with the unique restriction that it must implement the interface
-``com.github.mmolimar.kafka.connect.fs.file.reader.FileReader``.
+``ch.generali.copa.di.connector.fssourceconnector.filesystem.FileReader``.
 
 .. include:: filereaders.rst

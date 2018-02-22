@@ -60,7 +60,7 @@ General config properties for this connector.
   * Importance: high
 
 ``policy.class``
-  Policy class to apply (must implement ``com.github.mmolimar.kafka.connect.fs.policy.Policy`` interface).
+  Policy class to apply (must implement ``ch.generali.copa.di.connector.fssourceconnector.filesystem.Policy`` interface).
 
   * Type: string
   * Importance: high
@@ -92,7 +92,7 @@ General config properties for this connector.
 
 ``file_reader.class``
   File reader class to read files from the FS (must implement
-  ``com.github.mmolimar.kafka.connect.fs.file.reader.FileReader`` interface).
+  ``ch.generali.copa.di.connector.fssourceconnector.filesystem.FileReader`` interface).
 
   * Type: string
   * Importance: high
