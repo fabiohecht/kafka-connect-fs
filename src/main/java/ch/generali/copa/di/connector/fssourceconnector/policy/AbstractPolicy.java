@@ -190,18 +190,38 @@ abstract class AbstractPolicy implements Policy {
 
     @Override
     public FileReader offer(FileMetadata metadata, OffsetStorageReader offsetStorageReader) throws IOException {
+
+        //debugging TODO delete
+        log.info(" offer metadata=" + metadata + " offsetStorageReader=" + offsetStorageReader);
+
         Map<String, Object> partition = new HashMap<String, Object>() {{
             put("path", metadata.getPath());
             //TODO manage blocks
             //put("blocks", metadata.getBlocks().toString());
         }};
 
+        log.info(" offer partition=" + partition);
+
         FileSystem current = fileSystems.stream()
-                .filter(fs -> metadata.getPath().startsWith(fs.getWorkingDirectory().toString()))
+
+                //debugging TODO delete
+                .peek(fs -> log.info("       fs=" + fs))
+                .peek(fs -> log.info("       md=" + metadata.getPath()))
+                .peek(fs -> log.info("       wd=" + fs.getWorkingDirectory().toString()))
+                //.peek(fs -> log.info("       sc=" + fs.getScheme()))
+                .peek(fs -> log.info("       uri=" + fs.getUri().toString()))
+
+                //change fixes NPE when using SFTP TODO confirm fix is fine, delete this comment
+                .filter(fs -> metadata.getPath().startsWith(fs.getUri().toString()))
                 .findFirst().orElse(null);
 
         FileReader reader;
         try {
+
+            //debugging TODO delete
+            log.info(" offer makeReader(1:" + (Class<? extends FileReader>) conf.getClass(FsSourceTaskConfig.FILE_READER_CLASS) +
+                            ", 2:" + current + ", 3:" + new Path(metadata.getPath()) + ", 4:" + conf.originals() + ")");
+
             reader = ReflectionUtils.makeReader((Class<? extends FileReader>) conf.getClass(FsSourceTaskConfig.FILE_READER_CLASS),
                     current, new Path(metadata.getPath()), conf.originals());
         } catch (Throwable t) {
